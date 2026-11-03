@@ -177,6 +177,9 @@ func (gui *Gui) resetHelpersAndControllers() {
 	branchesController := controllers.NewBranchesController(common)
 	gitFlowController := controllers.NewGitFlowController(common)
 	stashController := controllers.NewStashController(common)
+	pullRequestsController := controllers.NewPullRequestsController(common)
+	issuesController := controllers.NewIssuesController(common)
+	projectsController := controllers.NewProjectsController(common)
 	commitFilesController := controllers.NewCommitFilesController(common)
 	mainViewController := controllers.NewMainViewController(common, gui.State.Contexts.Normal, gui.State.Contexts.NormalSecondary)
 	secondaryViewController := controllers.NewMainViewController(common, gui.State.Contexts.NormalSecondary, gui.State.Contexts.Normal)
@@ -217,6 +220,9 @@ func (gui *Gui) resetHelpersAndControllers() {
 		gui.State.Contexts.CommitFiles,
 		gui.State.Contexts.SubCommits,
 		gui.State.Contexts.Stash,
+		gui.State.Contexts.PullRequests,
+		gui.State.Contexts.Issues,
+		gui.State.Contexts.Projects,
 	} {
 		controllers.AttachControllers(context, sideWindowControllerFactory.Create(context))
 	}
@@ -253,6 +259,9 @@ func (gui *Gui) resetHelpersAndControllers() {
 		gui.State.Contexts.SubCommits,
 		gui.State.Contexts.CommitFiles,
 		gui.State.Contexts.Stash,
+		gui.State.Contexts.PullRequests,
+		gui.State.Contexts.Issues,
+		gui.State.Contexts.Projects,
 	} {
 		controllers.AttachControllers(context, controllers.NewSwitchToFocusedMainViewController(
 			common, context,
@@ -336,6 +345,18 @@ func (gui *Gui) resetHelpersAndControllers() {
 
 	controllers.AttachControllers(gui.State.Contexts.Stash,
 		stashController,
+	)
+
+	controllers.AttachControllers(gui.State.Contexts.PullRequests,
+		pullRequestsController,
+	)
+
+	controllers.AttachControllers(gui.State.Contexts.Issues,
+		issuesController,
+	)
+
+	controllers.AttachControllers(gui.State.Contexts.Projects,
+		projectsController,
 	)
 
 	controllers.AttachControllers(gui.State.Contexts.Menu,

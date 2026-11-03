@@ -368,8 +368,13 @@ type Model struct {
 	SubCommits      []*models.Commit
 	Remotes         []*models.Remote
 	Worktrees       []*models.Worktree
-	PullRequests    []*models.GithubPullRequest
-	PullRequestsMap map[string]*models.GithubPullRequest
+	PullRequests     []*models.GithubPullRequest
+	PullRequestsMap  map[string]*models.GithubPullRequest
+	RepoPullRequests []*models.GithubPullRequest
+	Issues           []*models.GithubIssue
+	ProjectItems     []*models.GithubProjectItem
+	GithubBaseHost   string
+	GithubAuthToken  string
 
 	// FilteredReflogCommits are the ones that appear in the reflog panel.
 	// When in filtering mode we only include the ones that match the given path

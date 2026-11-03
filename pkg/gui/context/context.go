@@ -22,6 +22,9 @@ const (
 	SUB_COMMITS_CONTEXT_KEY      types.ContextKey = "subCommits"
 	COMMIT_FILES_CONTEXT_KEY     types.ContextKey = "commitFiles"
 	STASH_CONTEXT_KEY            types.ContextKey = "stash"
+	PULL_REQUESTS_CONTEXT_KEY    types.ContextKey = "prs"
+	ISSUES_CONTEXT_KEY           types.ContextKey = "issues"
+	PROJECTS_CONTEXT_KEY         types.ContextKey = "projects"
 	NORMAL_MAIN_CONTEXT_KEY      types.ContextKey = "normal"
 	NORMAL_SECONDARY_CONTEXT_KEY types.ContextKey = "normalSecondary"
 	MERGE_CONFLICTS_CONTEXT_KEY  types.ContextKey = "mergeConflicts"
@@ -60,6 +63,9 @@ var AllContextKeys = []types.ContextKey{
 	SUB_COMMITS_CONTEXT_KEY,
 	COMMIT_FILES_CONTEXT_KEY,
 	STASH_CONTEXT_KEY,
+	PULL_REQUESTS_CONTEXT_KEY,
+	ISSUES_CONTEXT_KEY,
+	PROJECTS_CONTEXT_KEY,
 	NORMAL_MAIN_CONTEXT_KEY,
 	NORMAL_SECONDARY_CONTEXT_KEY,
 	MERGE_CONFLICTS_CONTEXT_KEY,
@@ -91,6 +97,9 @@ type ContextTree struct {
 	ReflogCommits     *ReflogCommitsContext
 	SubCommits        *SubCommitsContext
 	Stash             *StashContext
+	PullRequests      *PullRequestsContext
+	Issues            *IssuesContext
+	Projects          *ProjectsContext
 	Suggestions       *SuggestionsContext
 	Normal            *MainContext
 	NormalSecondary   *MainContext
@@ -130,6 +139,9 @@ func (self *ContextTree) Flatten() []types.Context {
 		self.ReflogCommits,
 		self.LocalCommits,
 		self.Stash,
+		self.Projects,
+		self.Issues,
+		self.PullRequests,
 		self.Menu,
 		self.Confirmation,
 		self.Prompt,

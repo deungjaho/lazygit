@@ -826,6 +826,14 @@ func stateFilePath(filename string) (string, error) {
 	return xdg.StateFile(filepath.Join("lazygit", filename))
 }
 
+func StateFilePath(filename string) (string, error) {
+	statePath, err := stateFilePath(stateFileName)
+	if err != nil {
+		return "", err
+	}
+	return filepath.Join(filepath.Dir(statePath), filename), nil
+}
+
 // SaveAppState marshalls the AppState struct and writes it to the disk
 func (c *AppConfig) SaveAppState() error {
 	marshalledAppState, err := yaml.Marshal(c.appState)

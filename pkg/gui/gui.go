@@ -663,6 +663,11 @@ func (gui *Gui) resetState(startArgs appTypes.StartArgs) types.Context {
 	}
 
 	gui.RepoStateMap[Repo(worktreePath)] = gui.State
+	if cachedDash := git_commands.LoadCachedDashboard(gui.git.RepoPaths.RepoPath()); cachedDash != nil {
+		gui.State.Model.RepoPullRequests = cachedDash.PullRequests
+		gui.State.Model.Issues = cachedDash.Issues
+		gui.State.Model.ProjectItems = cachedDash.ProjectItems
+	}
 
 	gui.applySidePanelConfig()
 

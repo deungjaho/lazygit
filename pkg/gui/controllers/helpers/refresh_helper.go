@@ -1844,10 +1844,23 @@ func (self *RefreshHelper) rerenderView(context types.Context, opts types.OnFocu
 }
 
 func (self *RefreshHelper) refreshGithubPullRequests(branches []*models.Branch, remotes []*models.Remote, env refreshEnv) {
+	self.onUIThreadUnlessRepoChanged(env, func() {
+		for _, ctx := range []types.Context{
+			self.c.Contexts().PullRequests,
+			self.c.Contexts().Issues,
+			self.c.Contexts().Projects,
+		} {
+			self.c.PostRefreshUpdateWithOptions(ctx, types.OnFocusOpts{KeepScrollPosition: true})
+		}
+	})
+
 	clearPullRequests := func() {
 		self.onUIThreadUnlessRepoChanged(env, func() {
 			self.c.Model().PullRequests = nil
 			self.c.Model().PullRequestsMap = nil
+			self.c.Model().RepoPullRequests = nil
+			self.c.Model().Issues = nil
+			self.c.Model().ProjectItems = nil
 		})
 	}
 
@@ -1867,7 +1880,43 @@ func (self *RefreshHelper) refreshGithubPullRequests(branches []*models.Branch, 
 		return
 	}
 
-	self.setGithubPullRequests(baseInfo, branches, env)
+	var ghWg sync.WaitGroup
+	ghWg.Add(2)
+	go func() {
+		defer ghWg.Done()
+		self.setGithubDashboardData(baseInfo, env)
+	}()
+	go func() {
+		defer ghWg.Done()
+		self.setGithubPullRequests(baseInfo, branches, env)
+	}()
+	ghWg.Wait()
+}
+
+func (self *RefreshHelper) setGithubDashboardData(baseInfo *githubRemoteInfo, env refreshEnv) {
+	dash, err := env.git.GitHub.FetchDashboardData(&baseInfo.serviceInfo, baseInfo.authToken)
+	if err != nil {
+		self.c.Log.Error("error fetching GitHub dashboard data: " + err.Error())
+		return
+	}
+
+	git_commands.SaveCachedDashboard(env.git.RepoPaths.RepoPath(), dash)
+
+	self.onUIThreadUnlessRepoChanged(env, func() {
+		self.c.Model().GithubBaseHost = baseInfo.serviceInfo.WebDomain
+		self.c.Model().GithubAuthToken = baseInfo.authToken
+		self.c.Model().RepoPullRequests = dash.PullRequests
+		self.c.Model().Issues = dash.Issues
+		self.c.Model().ProjectItems = dash.ProjectItems
+
+		for _, ctx := range []types.Context{
+			self.c.Contexts().PullRequests,
+			self.c.Contexts().Issues,
+			self.c.Contexts().Projects,
+		} {
+			self.c.PostRefreshUpdateWithOptions(ctx, types.OnFocusOpts{KeepScrollPosition: true})
+		}
+	})
 }
 
 type githubRemoteInfo struct {

@@ -38,6 +38,9 @@ func (gui *Gui) orderedViewNameMappings() []viewNameMapping {
 		{viewPtr: &gui.Views.ReflogCommits, name: "reflogCommits"},
 		{viewPtr: &gui.Views.Commits, name: "commits"},
 		{viewPtr: &gui.Views.Stash, name: "stash"},
+		{viewPtr: &gui.Views.Projects, name: "projects"},
+		{viewPtr: &gui.Views.Issues, name: "issues"},
+		{viewPtr: &gui.Views.PullRequests, name: "prs"},
 		{viewPtr: &gui.Views.SubCommits, name: "subCommits"},
 		{viewPtr: &gui.Views.CommitFiles, name: "commitFiles"},
 
@@ -220,6 +223,9 @@ func (gui *Gui) configureViewProperties() {
 	gui.c.SetViewContent(gui.Views.SearchPrefix, gui.c.Tr.SearchPrefix)
 
 	gui.Views.Stash.Title = gui.c.Tr.StashTitle
+	gui.Views.PullRequests.Title = "PRs"
+	gui.Views.Issues.Title = "Issues"
+	gui.Views.Projects.Title = "Projects"
 	gui.Views.Commits.Title = gui.c.Tr.CommitsTitle
 	gui.Views.ReflogCommits.Title = gui.c.Tr.ReflogCommitsTitle
 	gui.Views.CommitFiles.Title = gui.c.Tr.CommitFiles

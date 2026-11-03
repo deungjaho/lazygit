@@ -25,6 +25,9 @@ var ValidSidePanelTabs = []string{
 	"commits",
 	"reflog",
 	"stash",
+	"prs",
+	"issues",
+	"projects",
 }
 
 func (p SidePanel) MarshalYAML() (any, error) {

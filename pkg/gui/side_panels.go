@@ -21,6 +21,9 @@ var sidePanelViewNames = map[string]string{
 	"commits":    "commits",
 	"reflog":     "reflogCommits",
 	"stash":      "stash",
+	"prs":        "prs",
+	"issues":     "issues",
+	"projects":   "projects",
 }
 
 // sidePanelTabTitles maps each gui.sidePanels name to the title shown on its tab.
@@ -37,6 +40,9 @@ func (gui *Gui) sidePanelTabTitles() map[string]string {
 		"commits":    tr.CommitsTitle,
 		"reflog":     tr.ReflogCommitsTitle,
 		"stash":      tr.StashTitle,
+		"prs":        "PRs",
+		"issues":     "Issues",
+		"projects":   "Projects",
 	}
 }
 
@@ -53,6 +59,9 @@ func sidePanelContexts(contextTree *context.ContextTree) map[string]types.Contex
 		"commits":    contextTree.LocalCommits,
 		"reflog":     contextTree.ReflogCommits,
 		"stash":      contextTree.Stash,
+		"prs":        contextTree.PullRequests,
+		"issues":     contextTree.Issues,
+		"projects":   contextTree.Projects,
 	}
 }
 
