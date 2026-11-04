@@ -48,6 +48,11 @@ func (self *JumpToSideWindowController) GetKeybindings(opts types.KeybindingsOpt
 
 func (self *JumpToSideWindowController) goToSideWindow(window string) func() error {
 	return func() error {
+		if window == "prs" && !self.hasGithubRemote() {
+			self.c.ErrorToast(self.c.Tr.NoGithubRemoteWarning)
+			return nil
+		}
+
 		sideWindowAlreadyActive := self.c.Helpers().Window.CurrentWindow() == window
 		if sideWindowAlreadyActive && self.c.UserConfig().Gui.SwitchTabsWithPanelJumpKeys {
 			return self.nextTabFunc()
@@ -58,4 +63,23 @@ func (self *JumpToSideWindowController) goToSideWindow(window string) func() err
 		self.c.Context().Push(context, types.OnFocusOpts{})
 		return nil
 	}
+}
+
+func (self *JumpToSideWindowController) hasGithubRemote() bool {
+	if self.c.Model().GithubBaseHost != "" {
+		return true
+	}
+	for _, remote := range self.c.Model().Remotes {
+		for _, url := range remote.Urls {
+			if serviceInfo, err := self.c.Git().HostingService.GetServiceInfo(url); err == nil && serviceInfo.Provider == "github" {
+				return true
+			}
+		}
+	}
+	if remoteURL := self.c.Git().Config.GetRemoteURL(); remoteURL != "" {
+		if serviceInfo, err := self.c.Git().HostingService.GetServiceInfo(remoteURL); err == nil && serviceInfo.Provider == "github" {
+			return true
+		}
+	}
+	return false
 }

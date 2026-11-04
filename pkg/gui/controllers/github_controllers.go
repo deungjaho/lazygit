@@ -95,7 +95,18 @@ func (self *PullRequestsController) GetKeybindings(opts types.KeybindingsOpts) [
 			GetDisabledReason: self.require(self.singleItemSelected()),
 			Description:       self.c.Tr.OpenPullRequestInBrowser,
 		},
+		{
+			Keys:            opts.GetKeys(opts.Config.Universal.Return),
+			Handler:         self.escapeToFiles,
+			Description:     self.c.Tr.ReturnToFilesPanel,
+			DisplayOnScreen: true,
+		},
 	}
+}
+
+func (self *PullRequestsController) escapeToFiles() error {
+	self.c.Context().Push(self.c.Contexts().Files, types.OnFocusOpts{})
+	return nil
 }
 
 func (self *PullRequestsController) GetOnRenderToMain() func() {
@@ -314,7 +325,18 @@ func (self *IssuesController) GetKeybindings(opts types.KeybindingsOpts) []*type
 			GetDisabledReason: self.require(self.singleItemSelected()),
 			Description:       self.c.Tr.OpenPullRequestInBrowser,
 		},
+		{
+			Keys:            opts.GetKeys(opts.Config.Universal.Return),
+			Handler:         self.escapeToFiles,
+			Description:     self.c.Tr.ReturnToFilesPanel,
+			DisplayOnScreen: true,
+		},
 	}
+}
+
+func (self *IssuesController) escapeToFiles() error {
+	self.c.Context().Push(self.c.Contexts().Files, types.OnFocusOpts{})
+	return nil
 }
 
 func (self *IssuesController) GetOnRenderToMain() func() {
@@ -456,7 +478,18 @@ func (self *ProjectsController) GetKeybindings(opts types.KeybindingsOpts) []*ty
 			Description:       self.c.Tr.OpenPullRequestInBrowser,
 			DisplayOnScreen:   true,
 		},
+		{
+			Keys:            opts.GetKeys(opts.Config.Universal.Return),
+			Handler:         self.escapeToFiles,
+			Description:     self.c.Tr.ReturnToFilesPanel,
+			DisplayOnScreen: true,
+		},
 	}
+}
+
+func (self *ProjectsController) escapeToFiles() error {
+	self.c.Context().Push(self.c.Contexts().Files, types.OnFocusOpts{})
+	return nil
 }
 
 func (self *ProjectsController) GetOnRenderToMain() func() {

@@ -145,7 +145,13 @@ func (gui *Gui) layout(g *gocui.Gui) error {
 	}
 
 	menuWithFilterRowVisible := gui.Views.Menu.Visible && gui.State.Contexts.Menu.FilterAsYouType()
-	minimumHeight := minimumScreenHeight(len(gui.helpers.Window.SideWindows()), menuWithFilterRowVisible)
+	visibleSidePanels := len(gui.helpers.Window.SideWindows())
+	if gui.helpers.Window.CurrentWindow() == "prs" {
+		visibleSidePanels = 1
+	} else if lo.Contains(gui.helpers.Window.SideWindows(), "prs") {
+		visibleSidePanels--
+	}
+	minimumHeight := minimumScreenHeight(visibleSidePanels, menuWithFilterRowVisible)
 	minimumWidth := 10
 	gui.Views.Limit.Visible = height < minimumHeight || width < minimumWidth
 

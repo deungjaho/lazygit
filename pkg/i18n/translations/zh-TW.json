@@ -271,6 +271,7 @@
   "UnsupportedGitService": "不支援的 git 服務",
   "CopyPullRequestURL": "複製拉取請求的 URL 到剪貼板",
   "OpenPullRequestInBrowser": "在瀏覽器中開啟拉取請求",
+  "NoGithubRemoteWarning": "當前倉庫未配置 GitHub 遠端倉庫",
   "NoPullRequestForBranch": "未找到此分支的拉取請求",
   "NoBranchOnRemote": "這個分支在遠端不存在。需要先將其推送至遠端。",
   "Fetch": "擷取",

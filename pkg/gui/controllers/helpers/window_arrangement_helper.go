@@ -10,6 +10,7 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/config"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
 	"github.com/jesseduffield/lazygit/pkg/utils"
+	"github.com/samber/lo"
 	"golang.org/x/exp/slices"
 )
 
@@ -425,7 +426,18 @@ func getDefaultStashWindowBox(args WindowArrangementArgs, window string) *boxlay
 
 func sidePanelChildren(args WindowArrangementArgs) func(width int, height int) []*boxlayout.Box {
 	return func(width int, height int) []*boxlayout.Box {
-		windows := sideWindowNames(args.UserConfig)
+		if args.CurrentSideWindow == "prs" {
+			return []*boxlayout.Box{
+				{
+					Window: "prs",
+					Weight: 1,
+				},
+			}
+		}
+
+		windows := lo.Filter(sideWindowNames(args.UserConfig), func(window string, _ int) bool {
+			return window != "prs"
+		})
 
 		// These thresholds were originally tuned for the default five side panels.
 		// With fewer panels there's less to fit, so scale them down proportionally

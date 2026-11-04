@@ -93,6 +93,46 @@ func TestGetWindowDimensions(t *testing.T) {
 			`,
 		},
 		{
+			name: "prs focused",
+			mutateArgs: func(args *WindowArrangementArgs) {
+				args.CurrentSideWindow = "prs"
+			},
+			expected: `
+			╭prs────────────────────╮╭main────────────────────────────────────────────╮
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			│                       ││                                                │
+			╰───────────────────────╯╰────────────────────────────────────────────────╯
+			<options──────────────────────────────────────────────────────>A<B────────>
+			A: statusSpacer1
+			B: information
+			`,
+		},
+		{
 			name: "stash focused",
 			mutateArgs: func(args *WindowArrangementArgs) {
 				args.CurrentSideWindow = "stash"

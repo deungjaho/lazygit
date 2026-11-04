@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/samber/lo"
 )
 
 type SideWindowControllerFactory struct {
@@ -44,8 +45,14 @@ func (self *SideWindowController) Context() types.Context {
 	return nil
 }
 
+func (self *SideWindowController) navigableWindows() []string {
+	return lo.Filter(self.c.Helpers().Window.SideWindows(), func(w string, _ int) bool {
+		return w != "prs"
+	})
+}
+
 func (self *SideWindowController) previousSideWindow() error {
-	windows := self.c.Helpers().Window.SideWindows()
+	windows := self.navigableWindows()
 	currentWindow := self.c.Helpers().Window.CurrentWindow()
 	var newWindow string
 	if currentWindow == "" || currentWindow == windows[0] {
@@ -69,7 +76,7 @@ func (self *SideWindowController) previousSideWindow() error {
 }
 
 func (self *SideWindowController) nextSideWindow() error {
-	windows := self.c.Helpers().Window.SideWindows()
+	windows := self.navigableWindows()
 	currentWindow := self.c.Helpers().Window.CurrentWindow()
 	var newWindow string
 	if currentWindow == "" || currentWindow == windows[len(windows)-1] {

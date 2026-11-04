@@ -311,6 +311,7 @@ type TranslationSet struct {
 	UnsupportedGitService                 string
 	CopyPullRequestURL                    string
 	OpenPullRequestInBrowser              string
+	NoGithubRemoteWarning                 string
 	OpenPullRequestAtSelectedLine         string
 	OpenPullRequestAtSelectedLineTooltip  string
 	NoPullRequestForBranch                string
@@ -1528,6 +1529,7 @@ func EnglishTranslationSet() *TranslationSet {
 		CreatePullRequest:                    `Create pull request`,
 		CopyPullRequestURL:                   `Copy pull request URL to clipboard`,
 		OpenPullRequestInBrowser:             `Open pull request in browser`,
+		NoGithubRemoteWarning:                `No GitHub remote configured for this repository`,
 		OpenPullRequestAtSelectedLine:        `Open pull request at selected line`,
 		OpenPullRequestAtSelectedLineTooltip: "Open the branch's pull request in your browser, at the line the selection is on, so that you can comment on it there. Only pull requests on GitHub are found.",
 		NoPullRequestForBranch:               `No pull request found for this branch`,

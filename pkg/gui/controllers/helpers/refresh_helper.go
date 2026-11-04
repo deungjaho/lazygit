@@ -1861,6 +1861,7 @@ func (self *RefreshHelper) refreshGithubPullRequests(branches []*models.Branch, 
 			self.c.Model().RepoPullRequests = nil
 			self.c.Model().Issues = nil
 			self.c.Model().ProjectItems = nil
+			self.c.Model().GithubBaseHost = ""
 		})
 	}
 
