@@ -1,3 +1,5 @@
+PREFIX ?= $(HOME)/.local
+
 .PHONY: all
 all: build
 
@@ -7,7 +9,8 @@ build:
 
 .PHONY: install
 install:
-	go install
+	mkdir -p $(PREFIX)/bin
+	go build -o $(PREFIX)/bin/lazygit
 
 .PHONY: run
 run: build
